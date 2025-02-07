@@ -2,3 +2,4 @@ setup project
 setup styled components & global styles
 setup page & routes
 setup app layout
+setup sidebar and main navigation
