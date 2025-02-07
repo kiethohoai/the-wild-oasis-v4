@@ -5,3 +5,4 @@ setup app layout
 setup sidebar and main navigation
 setup BE supabase
 setup react query
+fetch all cabins
