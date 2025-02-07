@@ -11,10 +11,21 @@ import {
 } from './pages';
 import GlobalStyles from './styles/GlobalStyles';
 import AppLayout from './ui/AppLayout';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 const App = () => {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {/* Styles */}
       <GlobalStyles />
 
@@ -37,7 +48,9 @@ const App = () => {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 export default App;
