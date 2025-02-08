@@ -7,3 +7,4 @@ setup BE supabase
 setup react query
 fetch all cabins
 delete cabin
+setup & display react hot toast
