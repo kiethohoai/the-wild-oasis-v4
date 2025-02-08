@@ -9,3 +9,4 @@ fetch all cabins
 delete cabin
 setup & display react hot toast
 setup react hook form
+create new cabin

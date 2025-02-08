@@ -6,6 +6,9 @@ import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import Input from '../../ui/Input';
 import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createCabin } from '../../services/apiCabins';
+import toast from 'react-hot-toast';
 
 const FormRow = styled.div`
   display: grid;
@@ -44,10 +47,22 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
-  const { register, handleSubmit } = useForm();
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, reset } = useForm();
+  const { isLoading: isCreating, mutate } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cabins'] });
+      toast.success('Cabin successfully created!');
+      reset(); //Reset all form field
+    },
+    onError: () => {
+      toast.error('There was an error creating the cabin.');
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log(`🚀CHECK > data:`, data);
+    mutate(data);
   };
 
   return (
@@ -89,7 +104,12 @@ function CreateCabinForm() {
 
       <FormRow>
         <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          defaultValue="https://lgqroqhfwyzolpyyvjhp.supabase.co/storage/v1/object/public/cabin-images//cabin-001.jpg"
+          {...register('image')}
+        />
       </FormRow>
 
       <FormRow>
@@ -97,7 +117,9 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button>Add cabin</Button>
+        <Button disabled={isCreating}>
+          {isCreating ? 'Adding cabin...' : 'Add cabin'}
+        </Button>
       </FormRow>
     </Form>
   );
