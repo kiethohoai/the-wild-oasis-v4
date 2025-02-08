@@ -8,7 +8,7 @@ import FormRow from '../../ui/FormRow';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createCabin } from '../../services/apiCabins';
-import { defaultImages } from '../../data/data-images';
+// import { defaultImages } from '../../data/data-images';
 
 function CreateCabinForm() {
   const queryClient = useQueryClient();
@@ -28,18 +28,20 @@ function CreateCabinForm() {
   });
 
   const onSubmit = (data) => {
-    mutate(data);
+    mutate({ ...data, image: data?.image[0] });
   };
 
+  /*   
   function getRandomImage() {
     let index = Math.floor(Math.random() * 8);
     return defaultImages[index];
-  }
+  } */
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
+          disabled={isCreating}
           type="text"
           id="name"
           {...register('name', { required: 'This field is required' })}
@@ -48,6 +50,7 @@ function CreateCabinForm() {
 
       <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
         <Input
+          disabled={isCreating}
           type="number"
           id="maxCapacity"
           {...register('maxCapacity', {
@@ -62,6 +65,7 @@ function CreateCabinForm() {
 
       <FormRow label="Regular price" error={errors?.regularPrice?.message}>
         <Input
+          disabled={isCreating}
           type="number"
           id="regularPrice"
           {...register('regularPrice', {
@@ -76,6 +80,7 @@ function CreateCabinForm() {
 
       <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
+          disabled={isCreating}
           type="number"
           id="discount"
           defaultValue={0}
@@ -97,6 +102,7 @@ function CreateCabinForm() {
         error={errors?.description?.message}
       >
         <Textarea
+          disabled={isCreating}
           type="number"
           id="description"
           defaultValue=""
@@ -106,15 +112,15 @@ function CreateCabinForm() {
 
       <FormRow label="Cabin photo">
         <FileInput
+          disabled={isCreating}
           id="image"
           accept="image/*"
-          defaultValue={getRandomImage()}
+          // defaultValue={getRandomImage()}
           {...register('image')}
         />
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
           Cancel
         </Button>

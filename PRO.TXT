@@ -11,3 +11,4 @@ setup & display react hot toast
 setup react hook form
 create new cabin
 add form errors
+upload image to supabase server
