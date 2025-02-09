@@ -15,3 +15,4 @@ upload image to supabase server
 edit the cabin detail
 add custom hook for all query
 duplicate cabin
+fetch app settings
