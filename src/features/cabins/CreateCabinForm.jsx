@@ -1,51 +1,30 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createEditCabin } from '../../services/apiCabins';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import Input from '../../ui/Input';
 import FormRow from '../../ui/FormRow';
+import useCreateCabin from './useCreateCabin';
+import useEditCabin from './useEditCabin';
 
 function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, formState, getValues } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
-  const { errors } = formState;
 
-  // create cabin query
-  const { isLoading: isCreating, mutate: createCabin } = useMutation({
-    mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
-    // mutationFn: createEditCabin,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      toast.success('Cabin successfully created!');
-      reset(); //Reset all form field
-    },
-    onError: () => {
-      toast.error('There was an error creating the cabin.');
-    },
-  });
-
-  // edit cabin query
-  const { isLoading: isEditing, mutate: editCabin } = useMutation({
-    mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      toast.success('Cabin successfully updated!');
-      setShowForm(false); //close form
-      // reset();
-    },
-    onError: () => {
-      toast.error('There was an error updating the cabin.');
-    },
-  });
+  // create/edit cabin (custom hook)
+  const { isCreating, createCabin } = useCreateCabin();
+  const { isEditing, editCabin } = useEditCabin();
 
   // create or edit status
   const isWorking = isCreating || isEditing;
@@ -57,10 +36,19 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
 
     // call api create/update cabin
     if (isEditSession) {
-      editCabin({ newCabinData: { ...data, image: image }, id: editId });
+      editCabin(
+        { newCabinData: { ...data, image: image }, id: editId },
+        {
+          onSuccess: () => setShowForm(false),
+        },
+      );
     } else {
-      // createCabin({ ...data, image });
-      createCabin({ newCabinData: { ...data, image: image }, id: null });
+      createCabin(
+        { newCabinData: { ...data, image: image }, id: null },
+        {
+          onSuccess: () => reset(),
+        },
+      );
     }
   };
 

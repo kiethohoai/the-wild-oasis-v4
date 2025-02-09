@@ -13,3 +13,4 @@ create new cabin
 add form errors
 upload image to supabase server
 edit the cabin detail
+add custom hook for all query
