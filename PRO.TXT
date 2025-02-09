@@ -18,3 +18,4 @@ duplicate cabin
 fetch app settings
 update app settings
 add modal window
+convert the modal
