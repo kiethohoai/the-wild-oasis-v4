@@ -12,3 +12,4 @@ setup react hook form
 create new cabin
 add form errors
 upload image to supabase server
+edit the cabin detail

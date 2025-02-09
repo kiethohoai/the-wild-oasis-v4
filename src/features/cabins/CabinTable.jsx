@@ -55,7 +55,7 @@ const CabinTable = () => {
       </TableHeader>
 
       {cabins.map((cabin) => (
-        <CabinRow key={cabin.id} {...cabin} />
+        <CabinRow key={cabin.id} cabin={cabin} />
       ))}
     </Table>
   );

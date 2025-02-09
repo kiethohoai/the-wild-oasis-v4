@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 import CreateCabinForm from '../features/cabins/CreateCabinForm';
 
 function Cabins() {
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <>
