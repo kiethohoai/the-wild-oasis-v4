@@ -17,3 +17,4 @@ add custom hook for all query
 duplicate cabin
 fetch app settings
 update app settings
+add modal window
