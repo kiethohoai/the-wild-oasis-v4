@@ -8,7 +8,7 @@ import FormRow from '../../ui/FormRow';
 import useCreateCabin from './useCreateCabin';
 import useEditCabin from './useEditCabin';
 
-function CreateCabinForm({ cabinToEdit = {}, setShowForm, onCloseModal }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
@@ -40,8 +40,7 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm, onCloseModal }) {
         { newCabinData: { ...data, image: image }, id: editId },
         {
           onSuccess: () => {
-            setShowForm(false);
-            // onCloseModal?.();
+            onCloseModal?.();
           },
         },
       );

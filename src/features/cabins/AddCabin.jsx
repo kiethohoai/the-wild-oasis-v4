@@ -1,21 +1,26 @@
 import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
-import CabinTable from './CabinTable';
 import CreateCabinForm from './CreateCabinForm';
 
 const AddCabin = () => {
   return (
-    <Modal>
-      {/* #1 */}
-      <Modal.Open opens="cabin-form">
-        <Button>Add new cabin</Button>
-      </Modal.Open>
+    <div>
+      <Modal>
+        <Modal.Open opens="cabin-form">
+          <Button>Add new cabin</Button>
+        </Modal.Open>
 
-      <Modal.Window name="cabin-form">
-        <CreateCabinForm />
-      </Modal.Window>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm />
+        </Modal.Window>
+      </Modal>
+    </div>
+  );
+};
 
-      {/* #2 */}
+export default AddCabin;
+
+/* 
       <Modal.Open opens="table">
         <Button>Show table</Button>
       </Modal.Open>
@@ -23,13 +28,8 @@ const AddCabin = () => {
       <Modal.Window name="table">
         <CabinTable />
       </Modal.Window>
-    </Modal>
-  );
-};
 
-export default AddCabin;
 
-/* 
 const AddCabin = () => {
   const [isOpenModal, setIsOpenModel] = useState(false);
 
