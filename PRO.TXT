@@ -22,3 +22,4 @@ convert the modal
 click outside the modal
 confirm delete
 reused table
+building a reusable context menu
